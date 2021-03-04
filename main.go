@@ -38,10 +38,15 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func GenSingleToDo(id string) []byte {
 	buf := new(bytes.Buffer)
+	var check = false
 	for _, todo := range ToDos {
 		if todo.ID == id {
+			check = true
 			json.NewEncoder(buf).Encode(todo)
 		}
+	}
+	if check == false {
+		fmt.Println("There is no any Todo with this ID")
 	}
 	return buf.Bytes()
 }
@@ -51,10 +56,16 @@ func AddNewToDo(todo ToDo) {
 }
 
 func DeleteToDo(id string) {
+	var check = false
 	for index, todo := range ToDos {
 		if todo.ID == id {
+			check = true
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
+	}
+
+	if check == false {
+		fmt.Println("There is no any Todo with this ID")
 	}
 }
 
@@ -87,11 +98,19 @@ func returnAllToDo(w http.ResponseWriter, r *http.Request) {
 func returnSingleToDo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
-
+	var check = false
 	for _, todo := range ToDos {
 		if todo.ID == key {
+			check = true
 			json.NewEncoder(w).Encode(todo)
 		}
+	}
+
+	if check == false {
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.WriteHeader(404)
+		json.NewEncoder(w).Encode("There is no any Todo with this ID")
 	}
 }
 
@@ -99,8 +118,10 @@ func updateToDo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	key := 0
+	var check = false
 	for index, todo := range ToDos {
 		if todo.ID == id {
+			check = true
 			key = index
 		}
 	}
@@ -116,16 +137,25 @@ func updateToDo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ToDos = append(ToDos, td)
-
-	json.NewEncoder(w).Encode(td)
+	if check == true {
+		json.NewEncoder(w).Encode(td)
+	}
+	if check == false {
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.WriteHeader(404)
+		json.NewEncoder(w).Encode("There is no any Todo with this ID")
+	}
 }
 
 func updatePriorityToDo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 	key := 0
+	var check = false
 	for index, todo := range ToDos {
 		if todo.ID == id {
+			check = true
 			key = index
 		}
 	}
@@ -141,8 +171,15 @@ func updatePriorityToDo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ToDos = append(ToDos, td)
-
-	json.NewEncoder(w).Encode(td)
+	if check == true {
+		json.NewEncoder(w).Encode(td)
+	}
+	if check == false {
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.WriteHeader(404)
+		json.NewEncoder(w).Encode("There is no any Todo with this ID")
+	}
 }
 
 func createNewToDo(w http.ResponseWriter, r *http.Request) {
@@ -174,11 +211,19 @@ func createNewToDo(w http.ResponseWriter, r *http.Request) {
 func deleteToDo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-
+	var check = false
 	for index, todo := range ToDos {
 		if todo.ID == id {
+			check = true
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
+	}
+
+	if check == false {
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.WriteHeader(404)
+		json.NewEncoder(w).Encode("There is no any Todo with this ID")
 	}
 
 }
