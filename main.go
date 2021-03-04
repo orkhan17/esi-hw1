@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/bradfitz/slice"
 	"github.com/gorilla/mux"
@@ -148,6 +149,19 @@ func createNewToDo(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var todo ToDo
 	json.Unmarshal(reqBody, &todo)
+
+	var l = len(ToDos) - 1
+	var t ToDo = ToDos[l]
+
+	x, err := strconv.Atoi(t.ID)
+
+	if err != nil {
+		// handle error
+		fmt.Println(err)
+	}
+
+	todo.ID = strconv.Itoa(x + 1)
+
 	ToDos = append(ToDos, todo)
 
 	json.NewEncoder(w).Encode(todo)
