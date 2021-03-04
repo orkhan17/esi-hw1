@@ -150,6 +150,10 @@ func createNewToDo(w http.ResponseWriter, r *http.Request) {
 	var todo ToDo
 	json.Unmarshal(reqBody, &todo)
 
+	slice.Sort(ToDos[:], func(i, j int) bool {
+		return ToDos[i].ID < ToDos[j].ID
+	})
+
 	var l = len(ToDos) - 1
 	var t ToDo = ToDos[l]
 
