@@ -15,7 +15,7 @@ import (
 
 // ToDo ...
 type ToDo struct {
-	ID           string `json:"Id"`
+	ID           int    `json:"Id"`
 	Title        string `json:"Title"`
 	Description  string `json:"Description"`
 	Date         string `json:"Date"`
@@ -40,7 +40,7 @@ func GenSingleToDo(id string) []byte {
 	buf := new(bytes.Buffer)
 	var check = false
 	for _, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			check = true
 			json.NewEncoder(buf).Encode(todo)
 		}
@@ -58,7 +58,7 @@ func AddNewToDo(todo ToDo) {
 func DeleteToDo(id string) {
 	var check = false
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			check = true
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
@@ -100,7 +100,7 @@ func returnSingleToDo(w http.ResponseWriter, r *http.Request) {
 	key := vars["id"]
 	var check = false
 	for _, todo := range ToDos {
-		if todo.ID == key {
+		if strconv.Itoa(todo.ID) == key {
 			check = true
 			json.NewEncoder(w).Encode(todo)
 		}
@@ -120,7 +120,7 @@ func updateToDo(w http.ResponseWriter, r *http.Request) {
 	key := 0
 	var check = false
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			check = true
 			key = index
 		}
@@ -131,7 +131,7 @@ func updateToDo(w http.ResponseWriter, r *http.Request) {
 	td.Completed = true
 
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
 	}
@@ -154,7 +154,7 @@ func updatePriorityToDo(w http.ResponseWriter, r *http.Request) {
 	key := 0
 	var check = false
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			check = true
 			key = index
 		}
@@ -165,7 +165,7 @@ func updatePriorityToDo(w http.ResponseWriter, r *http.Request) {
 	td.HighPriority = true
 
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
 	}
@@ -194,14 +194,7 @@ func createNewToDo(w http.ResponseWriter, r *http.Request) {
 	var l = len(ToDos) - 1
 	var t ToDo = ToDos[l]
 
-	x, err := strconv.Atoi(t.ID)
-
-	if err != nil {
-		// handle error
-		fmt.Println(err)
-	}
-
-	todo.ID = strconv.Itoa(x + 1)
+	todo.ID = t.ID + 1
 
 	ToDos = append(ToDos, todo)
 
@@ -213,7 +206,7 @@ func deleteToDo(w http.ResponseWriter, r *http.Request) {
 	id := vars["id"]
 	var check = false
 	for index, todo := range ToDos {
-		if todo.ID == id {
+		if strconv.Itoa(todo.ID) == id {
 			check = true
 			ToDos = append(ToDos[:index], ToDos[index+1:]...)
 		}
@@ -230,27 +223,97 @@ func deleteToDo(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	ToDos = []ToDo{
-		ToDo{ID: "1",
+		ToDo{ID: 1,
 			Title:        "Meeting with friends",
 			Description:  "Meeting with my friends in city center",
 			Date:         "2021-03-06",
 			Time:         "2:00 pm",
 			HighPriority: true,
 			Completed:    false},
-		ToDo{ID: "2",
+		ToDo{ID: 2,
 			Title:        "Shopping",
 			Description:  "Don't forget to buy clothes",
 			Date:         "2021-03-06",
 			Time:         "4:00 pm",
 			HighPriority: true,
 			Completed:    true},
-		ToDo{ID: "3",
+		ToDo{ID: 3,
 			Title:        "Watch football",
 			Description:  "Watch Champions League Matches",
 			Date:         "2021-03-09",
 			Time:         "10:00 pm",
 			HighPriority: false,
 			Completed:    true},
+		ToDo{ID: 4,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 5,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 6,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 7,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 8,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 9,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 10,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 11,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 12,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
+		ToDo{ID: 13,
+			Title:        "Meeting with friends",
+			Description:  "Meeting with my friends in city center",
+			Date:         "2021-03-06",
+			Time:         "2:00 pm",
+			HighPriority: true,
+			Completed:    false},
 	}
 	handleRequests()
 }
