@@ -10,7 +10,11 @@
 > * Mark ToDo as completed
 > * Add a crazy, artsy, or funny feature that makes your TODO app unique 
 > * (e.g. colorization or importance levels, creation date, emoji counters, ... anything else not too complex is welcome here) - please document what you picked!
-> * Unique feature - Some ToDos can have high priority than others. That's why they should be seen differently to users and we implemented Todos if it has high priority it will be seen with red color at the frontend part. Users can define it while creating ToDo or they can update it afterward and make ToDo have a high priority. If Todo has high priority user will see it in red color and it will attract his attention to do it quickly. 
+> * Unique feature - Some ToDos can have high priority than others. 
+> That's why they should be seen differently to users and 
+> we implemented Todos if it has high priority it will be seen with red color at the frontend part. 
+> Users can define it while creating ToDo or they can  update it afterward and make ToDo have a high priority. 
+> If Todo has high priority user will see it in red color and it will attract his attention to do it quickly. 
 
  
 ```
